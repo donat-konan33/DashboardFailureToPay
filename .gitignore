@@ -1,0 +1,7 @@
+# IDE specific files
+.idea
+# temporary files
+.venv
+__pycache__
+# cache files
+.cache
