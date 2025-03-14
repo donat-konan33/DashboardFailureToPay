@@ -11,4 +11,3 @@ polars
 lightgbm~=4.2.0
 uvicorn[standard]
 scikit-learn
-modin~=0.26.0
