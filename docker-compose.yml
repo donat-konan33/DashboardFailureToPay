@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  streamlit:
+    build:
+      context: .
+    restart: always
+    volumes:
+      - ./data:/app/data/
+      - ./utils:/app/utils/
+    command: ["streamlit", "run", "main.py"]
+    #environment:
+
+
+    ports:
+      - 8501:8501
+    stdin_open: true
+    tty: true

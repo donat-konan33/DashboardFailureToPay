@@ -11,7 +11,6 @@ import joblib
 import pandas as pd
 import shap
 import matplotlib.image as mpimg
-from pandas import DataFrame
 
 
 # ============================= Importation de données =========================
@@ -21,7 +20,7 @@ class PlotterModule:
     classe permettant de construire les données et les mettre à disposition
     données : data, model, shapvalues
     """
-    data: DataFrame
+    data: pd.DataFrame
 
     # initialisation
     def __init__(self):
