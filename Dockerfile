@@ -9,6 +9,7 @@ WORKDIR /app
 
 COPY ./pyproject.toml  ./pyproject.toml
 COPY ./poetry.lock  ./poetry.lock
+COPY ./utils ./utils
 
 RUN apt-get update \
     && apt-get -y upgrade \
