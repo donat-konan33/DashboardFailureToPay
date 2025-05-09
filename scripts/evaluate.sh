@@ -1,14 +1,14 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
-echo "Évaluation du modèle en cours..."
+echo "Model Evaluation in progress..."
 
-# Exécution du script d'évaluation
+# Assessment
 python models/v1/metrics.py > logs/evaluation.log 2>&1
 
-# Vérification du succès
+# checkout the status of the last command
 if [ $? -eq 0 ]; then
-    echo "Évaluation terminée. Résultats disponibles dans logs/evaluation.log"
+    echo "Evaluation ended. Available results in logs/evaluation.log"
 else
-    echo "Erreur lors de l'évaluation !" >&2
+    echo "Error when evaluation !" >&2
     exit 1
 fi

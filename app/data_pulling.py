@@ -26,22 +26,20 @@ class PlotterModule:
     def __init__(self):
         # self.data = None
         self.shap_values = None
-        self.path_to_data = "fichier_api/fichier-test1000-api.csv"
-        self.path_to_model = "fichier_api/lgbm_beta_3_Model_.joblib"
+        self.path_to_data = "./fichier_api/fichier-test1000-api.csv" # ../ for test
+        self.path_to_model = "./fichier_api/lgbm_beta_3_Model_.joblib"
         self.model = joblib.load(self.path_to_model)
         self.data = pd.read_csv(self.path_to_data).drop('Unnamed: 0', axis=1)
-        self.path_to_logo = "fichier_api/logo_pret_a_depenser.png"
+        self.path_to_logo = "./fichier_api/logo_pret_a_depenser.png"
 
     def gt_model(self):
         # chargement du modèle entrainé
         model = self.model
-
         return model
 
     @property
     def gt_data(self) -> object:
         # chargement du data_test
-
         # complétion de data_test avec score, class_bin et class_cat
         # if self.model is None:
         #   raise ValueError("Le modèle n'a pas été initialisé, les données ne peuvent être chargées")
@@ -53,29 +51,23 @@ class PlotterModule:
             map(lambda x: "demande acceptée" if x == 0.0 else "demande refusée",
                 class_bin)
         )
-
         data_["score"] = score
         data_["class_bin"] = class_bin
         data_["class_cat"] = class_cat
         data_ = data_.set_index("SK_ID_CURR")
         self.data = data_  # Stockage des données dans l'attribut de la classe
-
         return self.data
 
     @property
     def shap_val(self):
         # if self.data is None:
         #   raise ValueError("Les données n'ont pas été initialisées, les valeurs de Shapley ne peuvent être chargées")
-
         # Interprétabilités et explicativité du modèle
-
         data_ = self.data
         shap_explainer = shap.TreeExplainer(self.model, data_.iloc[:, :-3],
                                             model_output="probability")
         shap_value = shap_explainer(data_.iloc[:, :-3])
-
         self.shap_values = shap_value  # Stockage Shap_values de la classe
-
         return self.shap_values
 
     def logo(self) -> object:

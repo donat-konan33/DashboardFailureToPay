@@ -13,9 +13,7 @@ import shap
 
 
 # ================= Définition des fonctions d'affichage =======================
-
 class StreamlitWebpagePlotter:
-
     # Initialisation
     def __init__(
             self,
@@ -68,7 +66,6 @@ class StreamlitWebpagePlotter:
                                  'thickness': 0.75, 'value': 50}}))
 
         self.fig_gauge = fig
-
         return st.plotly_chart(fig), st.write("(*) Ce score représente la probabilité de défaut de paiement")
 
     # Interprétabilité locale du modèle
@@ -92,7 +89,6 @@ class StreamlitWebpagePlotter:
         shap_value = self.shap_values
 
         fig = shap.plots.waterfall(shap_value[idx], max_display=max_display)
-
         return st.pyplot(fig)
 
     # Ajout de l'interprétabilité globale
@@ -102,11 +98,9 @@ class StreamlitWebpagePlotter:
         max_display = st.slider("Nombre de caractéristiques à afficher",
                                 10, 40, 10, key="w2")
         fig = shap.plots.bar(self.shap_values, max_display=max_display)
-
         return st.pyplot(fig)
 
     # interactive_plot, histogramme
-
     def interactive_hist_plot(self,
                               ID: int,
                               dt):
@@ -123,14 +117,10 @@ class StreamlitWebpagePlotter:
                                options=["AMT_INCOME_TOTAL", "EXT_SOURCE_3",
                                         "EXT_SOURCE_2", "EXT_SOURCE_1",
                                         "DAYS_EMPLOYED", "AMT_ANNUITY"])
-
         fig = px.histogram(self.data, x=feature, color="class_cat", marginal="rug",
                            hover_data=self.data.columns)  # hover_data est de types Series ici
         # idx = data_predict.index.tolist().index(ID)
-
         # dataframe d'une occurence liée à un ID
-
-
         fig.add_trace(go.Histogram(
             x=dt[feature],
             name='client {}'.format(ID),
@@ -188,7 +178,6 @@ class StreamlitWebpagePlotter:
             st.plotly_chart(fig_)  # vérifier la compatibilité entre les version de streamlit et plotly
 
     # interactive_plot, Nuage de points
-
     def interactive_scatter_plot(self,
                                  ID: int,
                                  dt,
@@ -198,9 +187,7 @@ class StreamlitWebpagePlotter:
       val_score : score (%)
 
       """
-
         st.subheader("Affichage de la relation entre 2 caractéristiques")
-
         x_axis_val = st.selectbox("Veuillez choisir l'abscisse",
                                   options=["AMT_INCOME_TOTAL", "EXT_SOURCE_3",
                                            "EXT_SOURCE_2", "EXT_SOURCE_1",

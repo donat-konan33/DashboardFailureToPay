@@ -10,39 +10,40 @@ Original file is located at
 from cachetools import cached, TTLCache
 from fastapi import FastAPI
 import uvicorn
+from argparse import ArgumentParser
 
 # ========================== import de modules crées ===========================
 from data_pulling import PlotterModule  # selon la classe créée
 
 # Fonction de récupération de données
-datapulling = PlotterModule()
+data = PlotterModule()
 
-cache = TTLCache(maxsize=100, ttl=100)
-cache_1 = TTLCache(maxsize=100, ttl=100)
-cache_2 = TTLCache(maxsize=100, ttl=3)
+cache = TTLCache(maxsize=100, ttl=3600)
+cache_1 = TTLCache(maxsize=100, ttl=3600)
+cache_2 = TTLCache(maxsize=100, ttl=3600)
 
 
 @cached(cache)
 def model():
-    modele = datapulling.gt_model()
+    modele = data.gt_model()
     return modele
 
 
 @cached(cache_1)
-def data():
-    datas = datapulling.gt_data
+def mydata():
+    datas = data.gt_data
     return datas
 
 
 @cached(cache_2)
 def shap_values():
-    shap_value_ = datapulling.shap_val
+    shap_value_ = data.shap_val
     return shap_value_
 
 
 # a route can be created to use the model one
 model_result = model()
-data_function = data()
+data_function = mydata()
 shap_value_result = shap_values()
 
 app = FastAPI()
@@ -96,5 +97,11 @@ async def get_model():
 async def get_filter_data_by_id(ID: int):
     return {"get_filter_data_by_id": data_function.query(f"index == {ID}")}
 
+parser = ArgumentParser(description="Retrieve host and port")
+parser.add_argument("--host", type=str, default="0.0.0.0", help="Host IP (default: 0.0.0.0)")
+parser.add_argument("--port", type=int, default=8001, help="Port number (default: 8001)")
 
-uvicorn.run(app)
+if __name__ == "__main__":
+    # run the app
+    args = parser.parse_args()
+    uvicorn.run(app, host=args.host, port=args.port)

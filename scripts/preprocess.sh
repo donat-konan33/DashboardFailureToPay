@@ -1,14 +1,14 @@
 #!/bin/bash
 
-echo "Démarrage du prétraitement des données..."
+echo "Process starting..."
 
-# Exécution du script de feature engineering
+# feature engineering
 python utils/preprocessed.py
 
-# Vérification du succès
+# checkout the status of the last command
 if [ $? -eq 0 ]; then
-    echo "Prétraitement terminé avec succès."
+    echo "Processing  ended successfully."
 else
-    echo "Erreur dans le prétraitement !" >&2
+    echo "Error when Processing !" >&2
     exit 1
 fi

@@ -8,11 +8,30 @@ services:
     volumes:
       - ./data:/app/data/
       - ./utils:/app/utils/
-    command: ["streamlit", "run", "main.py"]
-    #environment:
-
-
+      - ./fichier_api:/app/fichier_api/
+      - ./scripts:/app/scripts/
+    environment:
+      - SERVICE_NAME=streamlit
+    depends_on:
+      - fastapi
     ports:
       - 8501:8501
+    stdin_open: true
+    tty: true
+
+  fastapi:
+    build:
+      context: .
+    restart: always
+    environment:
+      - SERVICE_NAME=fastapi
+    ports:
+      - 8001:8001
+    volumes:
+      - ./data:/app/data/
+      - ./utils:/app/utils/
+      - ./fichier_api:/app/fichier_api/
+      - ./scripts:/app/scripts/
+
     stdin_open: true
     tty: true
