@@ -1,14 +1,14 @@
 #!/bin/bash
 
-echo "Démarrage de l'entraînement du modèle..."
+echo "Starting model training..."
 
-# Exécution du script d'entraînement
+# Run the training script
 python models/v1/train.py > logs/training.log 2>&1
 
-# Vérification du succès
+# Check if successful
 if [ $? -eq 0 ]; then
-    echo "Modèle entraîné avec succès et enregistré."
+  echo "Model trained and saved successfully."
 else
-    echo "Échec de l'entraînement !" >&2
-    exit 1
+  echo "Training failed!" >&2
+  exit 1
 fi
